@@ -1,0 +1,42 @@
+排序+双指针
+双指针思路：
+固定3个指针中最左(最小)数字的指针k，双指针i、j分设在数组[k+1,len(nums)-1]两端，通过双指针交替向中间移动，
+记录对于每个固定指针k的所有满足nums[k] + nums[i] + nums[j] == 0的i，j组合：
+1、当nums[k] > 0时直接break跳出，因为nums[j] >= nums[i] >= nums[k] > 0，即3个数字都大于0，在此固定指针k之后不可能再找到结果了。
+2、当k > 0且nums[k] == nums[k-1]时即跳过此元素nums[k]，因为已经将nums[k-1]的所有组合加入到结果中，本次双指针搜索只会得到重复组合。
+3、i，j分设在数组[k+1,len(nums)-1]两端，当i < j时循环计算s = nums[k] + nums[i] + nums[j]，并按照以下规则移动双指针：
+a) 当s < 0时，i++并跳过所有重复的nums[i]; 
+b) 当s > 0时，j++并跳过所有重复的nums[j];
+c) 当s = 0时，记录组合，执行i++，j++，并跳过所有重复的nums[i]和nums[j]，防止记录到重复组合。
+
+vector<vector<int>> threeSum(vector<int>& nums) {
+  vector<vector<int>> ans;
+  sort(nums.begin(), nums.end());//从小到大
+  for(int i = 0; i < nums.size(); ++i) 
+  {
+    if (i > 0 && nums[i] == nums[i-1])//去重 
+      continue;
+    int target;
+    if ((target = nums[i]) > 0)//最小的数都大于0 
+      break;
+    int left = i+1;
+    int right = nums.size() - 1;
+    while (left < right) 
+    {
+      if (nums[left] + nums[right] + target < 0) 
+        ++left;
+      else if(nums[left] + nums[right] + target > 0) 
+        --right;
+      else 
+      {
+        ans.push_back({target, nums[left], nums[right]});
+        ++left, --right;
+        while (left < right && nums[left] == nums[left-1])//去重 
+          ++left;
+        while (left < right && nums[right] == nums[right+1])//去重 
+          --right;
+      }
+    }
+  }
+  return ans; 
+}
