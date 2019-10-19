@@ -1,0 +1,32 @@
+//将一个给定字符串根据给定的行数，以从上往下，从左往右进行 N 字形排列。
+// s = "LEETCODEISHIRING", numRows = 4
+/*
+L     D     R
+E   O E   I I
+E C   I H   N
+T     S     G
+*/ 
+//之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如："LDREOEIIECIHNTSG"。
+
+class Solution{
+public:
+  string convert(string s, int numRows){
+    string res;//最终返回结果
+    if(s.empty() || numRows < 1)
+      return res;
+    if(numRows == 1)
+      return s;
+    vector<string> temp(numRows);//每行字符串
+    for(int i = 0; i < s.size(); ++i)
+    {
+      int ans = i / (numRows-1);//列
+      int cur = i % (numRows-1);//行
+      if(ans % 2 == 0)//结果为偶数
+        temp[cur] += s[i];//按余数正序保存
+      else 
+        temp[numRows-1 - cur] += s[i];//按余数倒序保存
+    }
+    for(int i = 0; i < temp.size(); ++i)
+      res += temp[i];
+  }
+};
