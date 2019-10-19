@@ -1,0 +1,46 @@
+//给定一个子符串，请你找出其中不含有重复字符的最长子串的长度。
+
+class Solution {
+  public:
+    int lengthOfLongestSubstring(string s) {
+      /*
+      int size = s.size();
+      int max = 0;
+      int i = 0;
+      for(int j = 0; j < size; ++j)
+      {
+        for(int k = i; k < j; ++k)
+        {
+          if(s[k] == s[j])
+          {
+            i = k+1;//暴力求解
+            break;
+          }
+        }
+        if(j-i+1 > max)
+          max = j-i+1;
+      }
+      return max;
+      */
+      //这个方法还没有上一种方法好
+      if(s.size() == 1 || s.size() == 0)
+        return s.size();
+      unordered_map<char, int> u_map;
+      int max = 0;
+      for(int i = 0; i < s.size(); ++i)
+      {
+        if(!u_map.count(s[i]))
+        {
+          u_map[s[i]] = i;
+          if(u_map.size() > max)
+            max = u_map.size();
+        }
+        else
+        {
+          i = u_map[s[i]];
+          u_map.clear();
+        }
+      }
+      return max;
+    }
+};
