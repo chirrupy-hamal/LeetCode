@@ -1,0 +1,63 @@
+//判断一个整数是否是回文数
+//回文数是指正序和倒序读都是一样的整数
+//121 true
+//-121 false 从左往右读是-121，从右往左读是121-。
+//10 false
+
+class Solution {
+public:
+  bool isPalindrome(int x) {
+  /*
+  if(x < 0)
+    return false;
+  else if(x >= 0 && x < 10)
+    return true;
+  else if(x % 10 == 0)
+    return false;
+  else
+  {
+    vector<int> v;
+    while(x != 0)
+    {
+      v.push_back(x % 10);
+      x = x / 10;
+    }
+    vector<int> tmp = v;
+    std::reverse(tmp.begin(), tmp.end());
+    auto v_it = v.begin();
+    auto tmp_it = tmp.begin();
+    for( ; v_it != v.end(); ++v_it, ++tmp_it )
+      if(*v_it != *tmp_it)
+        return false;
+
+    return true;
+  }
+  */
+
+  /*
+  if(x < 0) 
+    return false;//排除负数
+  string str_x = to_string(x);//转换成字符串
+  string str_tmp = str_x;
+  std::reverse(str_tmp.begin(), str_tmp.end());//进行反转
+  return str_tmp==str_x;//比较得出结果
+  */
+
+  if(x < 0) 
+    return false;
+  if(x == 0) 
+    return true;
+  long long n = 0;//用long long，防止while中的n溢出。
+  int y = x;
+  while(x > 0)
+  {
+    n *= 10;
+    n += x % 10;
+    x /= 10;
+  }
+  if(n == y) 
+    return true;
+  else 
+    return false;
+ }
+};
